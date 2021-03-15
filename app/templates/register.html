@@ -87,7 +87,7 @@
   </style>
 
   <div id="register">
-    <form action="/registerPOST/" method="post" id="registerForm" onsubmit="return submitRegister();">
+    <form action='{{url_for("registerPOST")}}' method="post" id="registerForm" onsubmit="return submitRegister();">
       <h2 class="registerH2">Регестрация</h2>
       {{ form.csrf_token }}
       {{ form.username(size=20, placeholder="Ник", oninput="chechLenInput(this)") }}<br>

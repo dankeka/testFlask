@@ -108,7 +108,7 @@
     <h2>Комментарии</h2>
     {% if auth %}
       <div class="addComment">
-        <form action="/addComment/" method="post" id="addCommentForm">
+        <form action='{{url_for("addComment")}}' method="post" id="addCommentForm">
           <div class="addCommentText">
             <span>Добавить коммент</span>
           </div>
@@ -163,7 +163,7 @@
 
       let form = new FormData();
 
-      let response = await fetch('/addComment/', {
+      let response = await fetch('{{url_for("addComment")}}', {
         method: 'POST',
         body: new FormData(addCommentForm)
       });

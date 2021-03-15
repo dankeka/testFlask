@@ -66,10 +66,9 @@ class Comment(db.Model):
     def __repr__(self):
         return str(self.id)
 
+
 # RenderComment - тот же Comment, только не для db
 # вместо user_id user_name
-
-
 class RenderComment:
     def __init__(self, number, article_id, username, text, date):
         self.number = number

@@ -75,7 +75,7 @@
 
   <div id="addArticleDiv">
     <h2>Добавить новую статью</h2>
-    <form action="/addArticlePOST/" method="post" id="addArticleForm">
+    <form action='{{url_for("addArticlePOST")}}' method="post" id="addArticleForm">
       {{ form.csrf_token }}
       <p>
         <span class="userСreated">Пользователь: </span><span class="userСreatedName">{{user}}</span>  

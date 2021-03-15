@@ -105,20 +105,20 @@
     <nav>
       <ul id="headerUl">
         <li>
-          <a href="/" class="headerA">Главное</a>
+          <a href='{{url_for("index")}}' class="headerA">Главное</a>
         </li>
         <li>
-          <a href="/login/" class="headerA">Логин</a>
+          <a href='{{url_for("login")}}' class="headerA">Логин</a>
         </li>
         <li>
-          <a href="/register/" class="headerA">Регестрация</a>
+          <a href='{{url_for("register")}}' class="headerA">Регестрация</a>
         </li>
         {% if auth %}
         <li>
-          <a href="/addArticleForm/" class="headerA">Добавить</a>
+          <a href='{{url_for("addArticleForm")}}' class="headerA">Добавить</a>
         </li>
         <li>
-          <a href="/logout/" class="headerA">Выйти</a>
+          <a href='{{url_for("logout")}}' class="headerA">Выйти</a>
         </li>
         {% endif %}
       </ul>
