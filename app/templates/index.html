@@ -20,6 +20,10 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .title_href {
+      text-decoration: none;
+      color: #000;
+    }
     .article .datePubArticle {
       font-weight: 300; 
       font-size: .95em;
@@ -61,7 +65,7 @@
       {% for a in articles %}
         <article class="article">
           <h2 class="title">
-            <a href="/article/{{a.id}}/">{{ a.title }}</a>
+            <a href="/article/{{a.id}}/" class="title_href">{{ a.title }}</a>
           </h2>
           <p>
             {{ a.intro }}

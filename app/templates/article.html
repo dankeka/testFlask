@@ -133,10 +133,10 @@
         </form>
       </div>
     {% endif %}
-    <div class="comments">
+    <div class="comments" id="articleComments">
       {% if comments %}
         {% for c in comments %}
-          <div class="comment" >
+          <div class="comment" data-number="{{c.number}}">
             {% if c.username[1] %}
               <span class="comment_author">{{c.username[0]|safe}}</span>
             {% else %}
@@ -169,14 +169,26 @@
       });
 
       return false;
-    }
+    };
 
-    selectorOrderComments.addEventListener('change', function (e) {
+    var comments = Array.from(document.querySelectorAll(".comments > .comment"));
+    const comments_el = document.getElementById("articleComments");
+
+    selectorOrderComments.addEventListener('change', function(e) {
       if(e.target.value == "Старые") {
-
+        comments = comments.sort(function(a, b) {
+          return Number( a.getAttribute("data-number") ) - Number( b.getAttribute("data-number") );
+        });
       } else {
-
+        comments = comments.sort(function(a, b) {
+          return Number( b.getAttribute("data-number") ) - Number( a.getAttribute("data-number") );
+        });
       }
+
+      comments.forEach(function(el) {
+        el.remove();
+        comments_el.prepend(el);
+      });
     });
   </script>
 {% endblock %}

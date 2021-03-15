@@ -71,8 +71,8 @@ class Comment(db.Model):
 
 
 class RenderComment:
-    def __init__(self, id, article_id, username, text, date):
-        self.id = id
+    def __init__(self, number, article_id, username, text, date):
+        self.number = number
         self.article_id = article_id
         self.username = username
         self.text = text
