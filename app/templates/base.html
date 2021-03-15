@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      padding: 0 !important;
+      margin: 0 !important;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+    }
+    #header {
+      position: relative;
+      z-index: 10;
+      background: #000;
+      width: 100%;
+      display: block;
+    }
+    /* rgb(26, 26, 26);*/
+    #header ul {
+      width: 90%;
+      margin: 0 auto;
+    }
+    #header ul li {
+      list-style: none;
+      margin-right: 15px;
+    }
+    .headerA {
+      text-decoration: none;
+      color: #fff;
+      transition: .2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .headerA:hover {
+      color: rgb(151, 211, 32);
+    }
+    .headerA::after {
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: -3px;
+      width: 0;
+      height: 2px;
+      background-color: rgb(151, 211, 32);
+      content: "";
+      transition: width 0.5s;
+    }
+    .headerA:hover::after {
+      width: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      height: 2px;
+      background-color: rgb(151, 211, 32);
+      content: "";
+      transition: width .5s;
+    }
+    main {
+      padding-top: 10px;
+      min-height: 950px;
+    }
+    #footer {
+      background: rgb(0, 0, 0);
+      position: relative; 
+      right: 0;
+      left: 0; 
+      bottom: 0;
+    }
+    #footer div {
+      padding: 6px;
+    }
+    #footer p {
+      color: #ccc;
+      font-weight: 300;
+      text-align: center;
+    }
+    @media (max-width: 720px) {
+      #header ul li a {
+        font-size: .95em;
+      }
+      #header {
+        padding: 10px 5px;
+      }
+    }
+    @media (min-width: 720px) {
+      #header ul li:first-child {
+        margin-left: auto;
+      }
+      #header {
+        padding: 15px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <nav>
+      <ul id="headerUl">
+        <li>
+          <a href="/" class="headerA">Главное</a>
+        </li>
+        <li>
+          <a href="/login/" class="headerA">Логин</a>
+        </li>
+        <li>
+          <a href="/register/" class="headerA">Регестрация</a>
+        </li>
+        {% if auth %}
+        <li>
+          <a href="/addArticleForm/" class="headerA">Добавить</a>
+        </li>
+        <li>
+          <a href="/logout/" class="headerA">Выйти</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer id="footer">
+    <div>
+      <p>
+        просто учу flask =)
+      </p>
+    </div>
+  </footer>
+
+  {% block scripts %}
+  {% endblock %}
+
+  <script type="text/javascript">
+    const header = document.getElementById("header");
+    const headerUl = document.getElementById("headerUl");
+    const headerBtn = document.createElement("button");
+    headerBtn.id = "btnOpenHeaderLi";
+    headerBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+    `;
+    headerBtn.style.cssText = `
+      font-size: 1.2em;
+      background: none;
+      color: #fff;
+      border: none;
+      padding: none;
+      display: block;
+      margin-left: auto;
+      position: relative;
+      top: 2px;
+      cursor: pointer;
+    `;
+    headerBtn.setAttribute("onclick", "openNav()");
+    const lis = document.querySelectorAll("#headerUl li");
+    const aByLis = document.querySelectorAll("#headerUl li a");
+
+    const headerMenu = document.createElement("div");
+    headerMenu.id = "headerMenuDivID";
+    var menuOpen = false;
+
+    function checkMedia() {
+      if(window.matchMedia("(min-width: 720px)").matches) {
+        headerUl.style.cssText = `display: flex;`;
+        lis.forEach(l => {
+          headerUl.append(l);
+        });
+        headerBtn.remove();
+
+        if(menuOpen) {
+          openNav();
+        }
+      } else {
+        let lisCopy = lis;
+        lisCopy.forEach(l => {
+          l.remove();
+        });
+        headerUl.append(headerBtn);
+      }
+    }
+    checkMedia();
+
+    function openNav() {
+      if(!menuOpen) {
+        aByLis.forEach(i => {
+          let liText = i.innerText;
+
+          let a = document.createElement("a");
+          a.style.cssText = `
+            font-weight: 300;
+          `;
+          a.setAttribute("href", i.getAttribute("href"));
+          a.setAttribute("class", "headerA");
+          a.innerText = liText;
+
+          let item = document.createElement("div");
+          item.style.cssText = `
+            padding: 10px;
+            margin-left: 25px;
+          `; 
+          item.append(a);
+          headerMenu.append(item);
+        });
+        header.append(headerMenu);
+        menuOpen = true;
+      } else {
+        let elements = document.querySelectorAll("#headerMenuDivID *"); 
+        elements.forEach(i => {
+          i.remove();
+        });
+
+        let headMenuCopy = document.getElementById("headerMenuDivID");
+        headMenuCopy.remove();
+        menuOpen = false;
+      }
+    }
+
+    window.addEventListener('resize', checkMedia);
+  </script>
+</body>
+</html>

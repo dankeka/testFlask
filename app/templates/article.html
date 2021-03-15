@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block content %}
+  <style>
+    .article_content {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto 100px auto;
+    }
+    .article_title, .article_intro {
+      text-align: center;
+    }
+    .article_text, .article_pub_date {
+      margin: 0 auto;
+    }
+    .commetsSection {
+      width: 80%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .addCommentText {
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-size: 1.2em;
+    }
+    .addCommentMainForm {
+      width: 100%;
+    }
+    .addCommentMainForm input[type="text"] {
+      padding: 4px;
+      font-size: .8em;
+      border: 1px inset #999;
+      border-radius: 3px;
+      width: 60%;
+      min-width: 100px;
+      margin-bottom: 5px;
+      transition: .2s;
+    }
+    .addCommentMainForm input[type="text"]:focus {
+      outline: none;
+      box-shadow: 0 0 1px 2px rgba(0, 153, 255, 0.5);
+      border-style: solid;
+      border-color: 0 0 1px 2px rgb(0, 153, 255);
+    }
+    .addCommentMainForm button {
+      padding: 3px 5px;
+      border: 1px solid #000;
+      border-radius: 5px;
+      background-color: #fff;
+      transition: .2s;
+      margin-left: 0;
+    }
+    .addCommentMainForm button:hover {
+      background-color: #000;
+      border-color: #fff;
+      color: #fff;
+      box-shadow: 0 0 0 1px #000;
+    }
+    .btnAddCommentANDsortComment {
+      display: flex;
+    }
+    .btnAddCommentANDsortComment .sortComments {
+      margin-left: auto;
+    }
+    .sortCommentsText {
+      font-size: .8em;
+      font-weight: 300;
+    }
+    .comments .comment {
+      margin: 10px auto;
+      padding: 5px;
+    }
+    .comments .comment:nth-child(odd) {
+      background: rgb(240, 240, 240);
+    }
+    .comment .comment_author {
+      font-weight: 500;
+      font-size: .9em;
+    }
+    .comment .comment_text {
+      margin: 2px 0;
+      font-size: .95em;
+    }
+    .comment .comment_date {
+      color: #111;
+      font-size: .70em;
+    }
+  </style>
+
+  <article class="article_content">
+    <div class="article_title">
+      <h1>{{article.title}}</h1>
+    </div>
+    <div class="article_intro">
+      <h2>{{article.intro}}</h2>
+    </div>
+    <div class="article_text">
+      <p>{{article.text}}</p>
+    </div>
+    <div>
+      <span class="article_pub_date">{{article.date}}</span>
+    </div>
+  </article>
+
+  <section class="commetsSection">
+    <h2>Комментарии</h2>
+    {% if auth %}
+      <div class="addComment">
+        <form action="/addComment/" method="post" id="addCommentForm">
+          <div class="addCommentText">
+            <span>Добавить коммент</span>
+          </div>
+          <div class="addCommentMainForm">
+            {{ form.csrf_token }}
+            {{ form.articleID(value=article.id) }}
+            {{ form.userID(value=userID) }}
+            {{ form.commentText(placeholder="Текст коммента") }}</br>
+            <div class="btnAddCommentANDsortComment">
+              <div>
+                <button type="submit">Добавить</button>
+              </div>
+              <div class="sortComments">
+                <span class="sortCommentsText">сначала</span>
+                <select id="selectorOrderComments">
+                  <option>Новые</option>
+                  <option>Старые</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+    <div class="comments">
+      {% if comments %}
+        {% for c in comments %}
+          <div class="comment" >
+            {% if c.username[1] %}
+              <span class="comment_author">{{c.username[0]|safe}}</span>
+            {% else %}
+              <span class="comment_author">{{c.username[0]}}</span>
+            {% endif %}
+
+            <p class="comment_text">{{c.text}}</p>
+            <span class="comment_date">{{c.date}}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    const addCommentInput = document.getElementById("commentText");
+    const addCommentCSRF = document.getElementById("csrf_token");
+
+    addCommentForm.onsubmit = async (e) => {
+      e.preventDefault();
+
+      let form = new FormData();
+
+      let response = await fetch('/addComment/', {
+        method: 'POST',
+        body: new FormData(addCommentForm)
+      });
+
+      return false;
+    }
+
+    selectorOrderComments.addEventListener('change', function (e) {
+      if(e.target.value == "Старые") {
+
+      } else {
+
+      }
+    });
+  </script>
+{% endblock %}

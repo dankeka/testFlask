@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Главное{% endblock %}
+
+{% block content %}
+  <style>
+    #articlesSection {
+      padding: 0 20px;
+    }
+    .article {
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 0 10px 20px 10px;
+      margin-bottom: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .article .title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .article .datePubArticle {
+      font-weight: 300; 
+      font-size: .95em;
+    }
+    .pleaseAuthText {
+      width: 90%;
+      margin: 15px auto 25px auto;
+      text-align: center;
+    }
+    .pleaseAuthText a {
+      text-decoration: none;
+      color: rgb(0, 30, 201);
+    }
+    @media (max-width: 960px) {
+      .article {
+        max-width: 500px;
+      }
+    }
+    @media (min-width: 960px) {
+      .article {
+        max-width: 600px;
+      }
+    }
+  </style>
+  <section id="articlesSection">
+    <div style="text-align: center; padding: 0; margin: 2px; margin-bottom: 10px;">
+      <h1 style="font-size: 2em; margin: 5px; color: #fff; text-shadow: 2px 0 2px #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">
+        Добро пожаловать!
+      </h1>
+    </div>
+    {% if not auth %}
+      <div>
+        <p class="pleaseAuthText">
+          <a href="/register/">Зарегестрируйтесь</a> или <a href="login">войдите</a> чтобы добавлять свои статьи
+        </p>
+      </div>
+    {% endif %}
+    {% if articles %}
+      {% for a in articles %}
+        <article class="article">
+          <h2 class="title">
+            <a href="/article/{{a.id}}/">{{ a.title }}</a>
+          </h2>
+          <p>
+            {{ a.intro }}
+          </p>
+          <span class="datePubArticle">{{ a.date }}</span>
+        </article>
+      {% endfor %}
+    {% else %}
+      <h1>Пока-что тут пусто ;(</h1>
+    {% endif %}
+  </section>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

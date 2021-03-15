@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+  <style>
+    #login {
+      margin: 0 auto;
+    }
+    #loginForm input {
+      font-size: .8em !important;
+      padding: 2px 6px 2px 6px;
+      border: 1px #ccc solid;
+      border-radius: 8px;
+      width: 95%;
+      line-height: 2;
+      transition: .2s;
+    }
+    #loginForm input:hover {
+      border: 1px solid rgba(96, 180, 201, 0.3);
+      box-shadow: 0 0 2px 1px rgba(96, 180, 201, 0.7);
+    }
+    #loginForm input:focus {
+      outline: none;
+      box-shadow: 0 0 1px 2px rgba(8, 201, 235, 0.6);
+      border: 1px solid rgba(8, 201, 235, 0.6);
+    }
+    #loginForm input::placeholder {
+      font-size: 1.2em;
+      position: relative;
+      bottom: 2px;
+    }
+    #loginForm input::-moz-placeholder {
+      font-size: 1.2em;
+      position: relative;
+      bottom: 2px;
+    }
+    #loginForm input::-webkit-input-placeholder {
+      font-size: 1.2em;
+      position: relative;
+      bottom: 2px;
+    }
+    .normal_placeholder::placeholder {
+      position: static;
+    }
+    .loginBtnSubmit {
+      margin-top: 10px;
+      padding: 6px 8px;
+      font-size: .8em;
+      font-weight: 500;
+      background-color: rgb(250, 250, 250);
+      border: 1px #ddd solid;
+      border-radius: 6px;
+      transition: .2s;
+    }
+    .loginBtnSubmit:hover {
+      background-color: rgb(230, 230, 230);
+      box-shadow: inset 0 0 2px 1px #44444456;
+    }
+    .loginH2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .helpTextLogin {
+      color: #999;
+      font-weight: 300;
+      font-size: .81em;
+    }
+    .link_register_in_login {
+      color: rgb(31, 132, 226);
+      transition: .2s;
+      font-weight: 400;
+      font-size: 1.04em;
+    }
+    .link_register_in_login:hover {
+      color: rgb(27, 105, 179)
+    }
+    @media (max-width: 540px) {
+      #login {
+        width: 75%;
+      } 
+      #loginForm input {
+        padding: 4px 8px 4px 8px;
+      }
+    }
+    @media (min-width: 540px) and (max-width: 720px) {
+      #login {
+        width: 50%;
+      }
+    }
+    @media (min-width: 720px) {
+      #login {
+        width: 30%;
+      }
+    }
+    @media (min-width: 992px) {
+      #login {
+        width: 20%;
+      }
+    }
+  </style>
+
+  <div id="login">
+    <form action="/loginPOST/" method="post" id="loginForm">
+      <h2 class="loginH2">Авторизация</h2>
+      {{ form.csrf_token }}
+      {{ form.username(size=20, placeholder="Ник", oninput="chechLenInput(this)") }}</br>
+      {{ form.password(placeholder="Пароль", oninput="chechLenInput(this)") }}</br>
+      <span class="helpTextLogin">Не акка? 
+        <a href="/register/" class="link_register_in_login">Создай</a>
+      </span></br>
+      <button type="submit" class="loginBtnSubmit">Войти</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  function chechLenInput(e) {
+    if(e.innerText.lenght !== 0) {
+      e.classList.add("normal_placeholder");
+    } else {
+      e.classList.remove("normal_placeholder");
+    }
+  }
+</script>
+{% endblock %}

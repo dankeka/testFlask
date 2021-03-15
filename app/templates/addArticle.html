@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Добавить статью{% endblock %}
+
+{% block content %}
+  <style>
+    #addArticleDiv {
+      margin: 0 auto;
+      width: 90%;
+    }
+    #addArticleForm label {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    #addArticleForm .userСreated {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    #addArticleForm .userСreatedName {
+      font-weight: 600;
+      font-size: 1.15em;
+      color: #bbb;
+    }
+    #addArticleForm input {
+      border: 1px inset #777;
+      padding: 3px 7px;
+      font-size: .9em;
+      transition: .2s;
+    }
+    #addArticleForm input:focus {
+      outline: none;
+      box-shadow: 0 0 1px 2px rgba(0, 153, 255, 0.5);
+      border-style: solid;
+      border-color: 0 0 1px 2px rgb(0, 153, 255);
+    }
+    #addArticleForm textarea {
+      border: 1px inset #777;
+      font-size: .9em;
+      padding-left: 6px;
+      padding: 3px;
+    }
+    #addArticleForm textarea:focus {
+      outline: none;
+      box-shadow: 0 0 1px 2px rgba(0, 153, 255, 0.5);
+      border-style: solid;
+      border-color: 0 0 1px 2px rgb(0, 153, 255);
+    }
+    #addArticleForm .addArticleButtonSubmit {
+      border: 1px solid #000;
+      padding: 7px 15px;
+      border-radius: 8px;
+      background: #fff;
+      color: #000;
+      font-weight: 500;
+      font-size: .85em;
+      transition: .2s;
+    }
+    #addArticleForm .addArticleButtonSubmit:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 0 1px #000;
+      border-color: #fff;
+    }
+    #addArticleForm .introHelpText {
+      color: #aaa;
+      font-size: .8em;
+      font-weight: 300;
+    }
+    #addArticleForm .errLen {
+      color: red;
+      font-weight: 300;
+      font-size: .8em;
+    }
+  </style>
+
+  <div id="addArticleDiv">
+    <h2>Добавить новую статью</h2>
+    <form action="/addArticlePOST/" method="post" id="addArticleForm">
+      {{ form.csrf_token }}
+      <p>
+        <span class="userСreated">Пользователь: </span><span class="userСreatedName">{{user}}</span>  
+        {{ form.username(readonly="readonly", value=user) }} 
+      </p>
+      <p>
+        <label for="title">Название</label></br>
+        {{ form.title(oninput="checkInput(this)") }}
+      </p>
+      <p>
+        <label for="intro">Интро</label></br>
+        {{ form.intro(oninput="checkInput(this)") }}</br>
+        <span class="introHelpText">То, что будет показанно на главной странице</span>
+      </p>
+      <p>
+        <label for="text">Текст</label></br>
+        {{ form.text(rows="15") }}
+      </p>
+      <p>
+        <button type="submit" class="addArticleButtonSubmit">Добавить</button>
+      </p>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  const textField = document.getElementById("text");
+  const titleField = document.getElementById("title");
+  const introField = document.getElementById("intro");
+
+  function checkMedia() {
+    if(window.matchMedia("(max-width: 540px)").matches) {
+      titleField.setAttribute("size", "41px");
+      introField.setAttribute("size", "41px");
+      textField.setAttribute("cols", "40");
+    } else if(window.matchMedia("(min-width: 540px) and (max-width: 720px)").matches) {
+      titleField.setAttribute("size", "51px");
+      introField.setAttribute("size", "51px");
+      textField.setAttribute("cols", "50");
+    } else if(window.matchMedia("(min-width: 720px) and (max-width: 960px)").matches) {
+      titleField.setAttribute("size", "76px");
+      introField.setAttribute("size", "76px");
+      textField.setAttribute("cols", "75");
+    } else if(window.matchMedia("(min-width: 960px)").matches) {
+      titleField.setAttribute("size", "100px");
+      introField.setAttribute("size", "100px");
+      textField.setAttribute("cols", "100");
+    }
+  }
+  checkMedia();
+
+  const maxLen = document.createElement("span");
+  maxLen.innerText = "максимальный рамер поля - 100";
+  maxLen.setAttribute("class", "errLen");
+  const br = document.createElement("br");
+  var setEl = false;
+
+  function checkInput(e) {
+    if(e.value.length > 100) {
+      e.after(maxLen);
+      e.after(br);
+      setEl = true;
+    } else {
+      if(setEl) {
+        maxLen.remove();
+        br.remove();
+      }
+    }
+  }
+
+  window.addEventListener('resize', checkMedia);
+</script>
+{% endblock %}
