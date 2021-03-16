@@ -16,7 +16,7 @@
       margin: 0 auto;
     }
     .commetsSection {
-      width: 80%;
+      width: 75%;
       max-width: 700px;
       margin: 0 auto;
     }
@@ -59,14 +59,40 @@
       box-shadow: 0 0 0 1px #000;
     }
     .btnAddCommentANDsortComment {
+      width: 100%;
       display: flex;
     }
-    .btnAddCommentANDsortComment .sortComments {
+    .afterDivSortComments {
+      display: flex;
       margin-left: auto;
+    }
+    .sortComments {
+      border: 1px solid #A9A9A9FF;
+      border-radius: 5px;
+      padding: 0 5px 2px 5px;
     }
     .sortCommentsText {
       font-size: .8em;
       font-weight: 300;
+      padding: 0 0 2px 1px;
+    }
+    #selectorOrderComments {
+      border: none;
+      background-color: #ffffff !important;
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      font-weight: 600;
+      font-size: .7em;
+      text-decoration: underline;
+      margin-left: 0;
+      color: #3478FEFF;
+    }
+    #selectorOrderComments:hover {
+      color: #293CCEFF;
+    }
+    #selectorOrderComments:focus {
+      outline: none;
     }
     .comments .comment {
       margin: 10px auto;
@@ -121,12 +147,14 @@
               <div>
                 <button type="submit">Добавить</button>
               </div>
-              <div class="sortComments">
-                <span class="sortCommentsText">сначала</span>
-                <select id="selectorOrderComments">
-                  <option>Новые</option>
-                  <option>Старые</option>
-                </select>
+              <div class="afterDivSortComments">
+                <div class="sortComments">
+                  <span class="sortCommentsText">сортировать по</span>
+                  <select id="selectorOrderComments">
+                    <option>НОВИЗНЕ</option>
+                    <option>СТАРИНЕ</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -175,7 +203,7 @@
     const comments_el = document.getElementById("articleComments");
 
     selectorOrderComments.addEventListener('change', function(e) {
-      if(e.target.value == "Старые") {
+      if(e.target.value == "СТАРИНЕ") {
         comments = comments.sort(function(a, b) {
           return Number( a.getAttribute("data-number") ) - Number( b.getAttribute("data-number") );
         });

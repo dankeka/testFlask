@@ -49,12 +49,12 @@
     }
   </style>
   <section id="articlesSection">
-    <div style="text-align: center; padding: 0; margin: 2px; margin-bottom: 10px;">
-      <h1 style="font-size: 2em; margin: 5px; color: #fff; text-shadow: 2px 0 2px #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">
-        Добро пожаловать!
-      </h1>
-    </div>
     {% if not auth %}
+      <div style="text-align: center; padding: 0; margin: 2px; margin-bottom: 10px;">
+        <h1 style="font-size: 2em; margin: 5px; color: #fff; text-shadow: 2px 0 2px #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;">
+          Добро пожаловать!
+        </h1>
+      </div>
       <div>
         <p class="pleaseAuthText">
           <a href='{{url_for("register")}}'>Зарегестрируйтесь</a> или <a href='{{url_for("login")}}'>войдите</a> чтобы добавлять свои статьи
